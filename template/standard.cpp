@@ -28,7 +28,7 @@ using namespace std;
 #define all(v) v.begin(),v.end()
 #define rall(v) v.rbegin(),v.rend()
 #define el "\n"
-using ll = long long;using vi = vector<int>;using vll = vector<ll>;using vb = vector<bool>;const ll INF = 1LL<<60;
+using ll = long long;using vi = vector<int>;using vll = vector<ll>;using vb = vector<bool>;using vs = vector<string>;const ll INF = 1LL<<60;
 template<class T> using pq=priority_queue<T>;template<class T> using pq_gt=priority_queue<T,vector<T>,greater<T>>;
 template<class T> inline bool chmin(T&a,T b){if(a>b){a=b;return true;}return false;};
 template<class T> inline bool chmax(T&a,T b){if(a<b){a=b;return true;}return false;};
