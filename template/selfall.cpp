@@ -1,3 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <queue>
+#include <stack>
+#include <map>
+#include <set>
+#include <numeric>
+#include <functional>
+#include <tuple>
+#include <limits>
+#include <deque>
+#include <unordered_set>
+#include <unordered_map>
+#include <cstring>
+#include <sstream>
+#include <utility>
+#include <bitset>
+#include <array>
+#include <cstdint>
+#include <cassert>
+using namespace std;
+#define rep(i,n) for(int i=0;i<(n);++i)
+#define REP(i,l,r) for(int i=l;i<(r);++i)
+#define all(v) v.begin(),v.end()
+#define rall(v) v.rbegin(),v.rend()
+#define el "\n"
+using ll = long long;using vi = vector<int>;using vll = vector<ll>;using vb = vector<bool>;using vs = vector<string>;const ll INF = 1LL<<60;
+template<class T> using pq=priority_queue<T>;template<class T> using pq_gt=priority_queue<T,vector<T>,greater<T>>;
+template<class T> inline bool chmin(T&a,T b){if(a>b){a=b;return true;}return false;};
+template<class T> inline bool chmax(T&a,T b){if(a<b){a=b;return true;}return false;};
+const int dr4[4]={-1,0,1,0};const int dc4[4]={0,1,0,-1};
+const int dr8[8]={-1,-1,-1,0,1,1,1,0};const int dc8[8]={-1,0,1,1,1,0,-1,-1};
+//上右下左//左上上右上右右下下左下左
+
+
 template<int MOD>
 struct modint{
     ll x;
@@ -58,3 +97,96 @@ struct sieve{
         for(ll i=1;i*i<=x;i++){if(x%i==0){res.push_back(i);if(i*i!=x)res.push_back(x/i);}}
         sort(res.begin(),res.end());return res;}
 };
+template<class T,auto op,auto e>
+struct segtree{
+    int n;
+    vector<T> seg;
+    segtree(int N){
+        n=1;
+        while(n<N)n*=2;
+        seg.resize(2*n,e());
+    }
+    T all_prod(){
+        return seg[1];
+    }
+    T get(int x){
+        return seg[x+n];
+    }
+    void set(int x,T y){
+        x+=n;
+        seg[x]=y;
+        while(x>1){
+            x/=2;
+            seg[x]=op(seg[2*x],seg[2*x+1]);
+        }
+    }
+    T prod(int l,int r){
+        l+=n;
+        r+=n;
+        if(l>=r)return e();
+        T resleft=e();
+        T resright=e();
+        while(r>l){
+            if(l%2)resleft=op(resleft,seg[l++]);
+            if(r%2)resright=op(seg[--r],resright);
+            l/=2;
+            r/=2;
+        }
+        return op(resleft,resright);
+    }
+    template<class F>
+    int max_right(int l,F f){
+        if(l>=n)return n;
+        l+=n;
+        T right=e();
+        do{
+            while(l%2==0)l/=2;
+            if(!f(op(right,seg[l]))){
+                while(l<n){
+                    l*=2;
+                    if(f(op(right,seg[l]))){
+                        right=op(right,seg[l]);
+                        l++;
+                    }
+                }
+                return l-n;
+            }
+            right=op(right,seg[l]);
+            l++;
+        }while((l&-l)!=l);
+        return n;
+    }
+    template<class S>
+    int min_left(int r,S f){
+        if(r<0)return -1;
+        r+=n;
+        T left=e();
+        do{
+            while(r%2==0)r/=2;
+            if(!f(op(seg[r-1],left))){
+                while(r<n){
+                    r=r*2+1;
+                    if(f(op(seg[r],left))){
+                        left=op(seg[r],left);
+                        r--;
+                    }
+                }
+                return r+1-n;
+            }
+            left=op(seg[r-1],left);
+            r--;
+        }while((r&-r)!=r);
+        return -1;
+    }        
+};
+
+
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+
+    
+
+    return 0;
+}
