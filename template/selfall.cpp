@@ -35,4 +35,26 @@ struct comb{
     mint P(int n,int r){if(n<0||r<0||r>n)return mint(0);return (mint)(factor[n]*invfactor[n-r]);}
     mint H(int n,int r){if(n==0&&r==0)return 1;if(n<0||r<0)return 0;return C(n+r-1,r);}
 };
-
+vector<string> rotate90(vector<string> S){
+    int H=S.size();int W=S[0].size();vector<string> A(W,string(H,'.'));
+    for(int i=0;i<H;i++)for(int j=0;j<W;j++){A[j][H-1-i]=S[i][j];}return A; 
+}
+vector<string> rotate270(vector<string> S){
+    int H=S.size();int W=S[0].size();vector<string> A(W,string(H,'.'));
+    for(int i=0;i<H;i++)for(int j=0;j<W;j++){A[W-1-j][i]=S[i][j];}return A; 
+}
+struct sieve{
+    vector<ll> f;vector<ll> primes;
+    sieve(ll n=2){f.resize(n+1,0);f[0]=f[1]=-1;
+        for(ll i=2;i<=n;i++){if(f[i])continue;primes.push_back(i);f[i]=i;
+            for(ll j=i*i;j<=n;j+=i){if(f[j])continue;f[j]=i;}}}
+    bool is_prime(ll x){return f[x]==x;}
+    vector<ll> prime_factors(int x){vector<ll> vec;
+        while(x!=1){vec.push_back(f[x]);x/=f[x];}return vec;}
+    vector<pair<ll,ll>> prime_factorize(ll x){vector<pair<ll,ll>> vec;
+        for(ll i=0;i<primes.size();i++){if(x%primes[i])continue;ll exp=0;
+            while(!(x%primes[i])){x/=primes[i];exp++;}vec.push_back({primes[i],exp});}return vec;}
+    vector<ll> divisors(ll x){vector<ll> res;
+        for(ll i=1;i*i<=x;i++){if(x%i==0){res.push_back(i);if(i*i!=x)res.push_back(x/i);}}
+        sort(res.begin(),res.end());return res;}
+};
