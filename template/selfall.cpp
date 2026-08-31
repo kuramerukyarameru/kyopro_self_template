@@ -99,8 +99,8 @@ struct sieve{
 };
 template<class T,auto op,auto e>
 struct segtree{
-    int n;vector<T> seg;
-    segtree(int N){
+    int n;vector<T> seg;int N;
+    segtree(int N):N(N){
         n=1;while(n<N)n*=2;seg.resize(2*n,e());}
     T all_prod(){return seg[1];}
     T get(int x){return seg[x+n];}
@@ -129,7 +129,7 @@ struct segtree{
             }
             right=op(right,seg[l]);l++;
         }while((l&-l)!=l);
-        return n;
+        return N;
     }
     template<class S>
     int min_left(int r,S f){
@@ -148,6 +148,7 @@ struct segtree{
         return -1;
     }        
 };
+
 
 
 int main() {
